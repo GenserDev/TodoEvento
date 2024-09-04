@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -71,7 +70,7 @@ fun LugarItem(lugar: Lugar) {
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
-                    text = "A", // Placeholder for the first letter of the name or an image
+                    text = "A",
                     color = Color.White,
                     style = MaterialTheme.typography.bodyLarge
                 )
