@@ -69,15 +69,23 @@ fun MainContent() {
     Column {
         CustomTopBar()
         Spacer(modifier = Modifier.height(16.dp))
-        // Aquí va el contenido de las tarjetas
+        // Sección de "Your Favorites"
+        Text(
+            text = "Your Favorites",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         EventCardGrid()
+
+        Spacer(modifier = Modifier.height(16.dp))
+        
     }
 }
 
 @Composable
 fun EventCardGrid() {
     val items = listOf(
-        Item("Title 1", "Supporting text", R.drawable.image1),
+        Item("Title 1", "Supporting text", R.drawable.travis),
         Item("Title 2", "Supporting text", R.drawable.image2),
         Item("Title 3", "Supporting text", R.drawable.image3),
         Item("Title 4", "Supporting text", R.drawable.image4)
