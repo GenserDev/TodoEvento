@@ -1,5 +1,8 @@
 package com.example.todoeventoaplicacion
 
+//Genser Catalan
+//Pantalla Lugares de Eventos
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,6 +32,7 @@ class LugaresActivity : ComponentActivity() {
 
 @Composable
 fun LugaresScreen() {
+    // Pantalla que muestra una lista de lugares
     val lugares = listOf(
         Lugar("Guns And Roses LA", "LA Hall"),
         Lugar("Guns and Roses Denver", "Denver Hall"),
@@ -46,7 +50,7 @@ fun LugaresScreen() {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // List of places
+        // Lista de lugares
         for (lugar in lugares) {
             LugarItem(lugar = lugar)
         }
@@ -55,6 +59,7 @@ fun LugaresScreen() {
 
 @Composable
 fun LugarItem(lugar: Lugar) {
+    // Componente que muestra un lugar individual
     Row(
         modifier = Modifier
             .fillMaxWidth()

@@ -1,31 +1,20 @@
 package com.example.todoeventoaplicacion
 
+//Genser Catalan
+//Pantalla Inicial/Favorites
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +23,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.todoeventoaplicacion.ui.theme.TodoEventoAplicacionTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,49 +33,74 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TodoEventoAplicacionTheme {
-                MainContent()
+                val navController = rememberNavController()
+
+                // Configuración de navegación
+                NavHost(navController = navController, startDestination = "main") {
+                    composable("main") { MainContent(navController) }
+                    composable("cardDetail") { CardScreen(navController) }
+                    composable("profile") { PerfilScreen() }
+                    composable("lugares") { LugaresScreen() }
+                }
+
             }
         }
     }
 }
 
 @Composable
-fun CustomTopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(onClick = { /* Acción para el botón de la casita */ }) {
-            Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.White)
-        }
-        Text(text = "TodoEventos+", color = Color.White, style = MaterialTheme.typography.headlineSmall)
-    }
-}
-
-@Composable
-fun MainContent() {
+fun MainContent(navController: androidx.navigation.NavController) {
+    // Pantalla principal que muestra el encabezado y una cuadrícula de las Cards de eventos
     Column {
-        CustomTopBar()
-        Spacer(modifier = Modifier.height(16.dp))
-        // Sección de "Your Favorites"
+        AppHeader(navController)
+
+        Spacer(modifier = Modifier.height(32.dp))
+
         Text(
             text = "Your Favorites",
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
         )
-        EventCardGrid()
 
-        Spacer(modifier = Modifier.height(16.dp))
-        
+        EventCardGrid(navController)
+    }
+}
+
+
+@Composable
+fun AppHeader(navController: androidx.navigation.NavController) {
+    // Encabezado con el título y el botón de navegación al perfil
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.DarkGray)
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "TodoEventos+",
+            style = MaterialTheme.typography.headlineLarge,
+            color = Color.White,
+            modifier = Modifier.padding(start = 6.dp)
+        )
+
+        IconButton(onClick = {
+            navController.navigate("profile")
+        }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_home),
+                contentDescription = "Home Icon",
+                tint = Color.White,
+                modifier = Modifier.size(32.dp)
+            )
+        }
     }
 }
 
 @Composable
-fun EventCardGrid() {
+fun EventCardGrid(navController: androidx.navigation.NavController) {
+    // Cuadrícula de Cards de eventos
     val items = listOf(
         Item("Title 1", "Supporting text", R.drawable.travis),
         Item("Title 2", "Supporting text", R.drawable.image2),
@@ -97,19 +114,22 @@ fun EventCardGrid() {
         modifier = Modifier.fillMaxSize()
     ) {
         items(items) { item ->
-            CardItem(item = item)
+            CardItem(item = item, navController)
         }
     }
 }
 
 @Composable
-fun CardItem(item: Item) {
+fun CardItem(item: Item, navController: androidx.navigation.NavController) {
+    // Cards de evento individual que navega a la pantalla de detalle del evento al hacer clic
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate("cardDetail")
+            },
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -129,12 +149,13 @@ fun CardItem(item: Item) {
     }
 }
 
+data class Item(val title: String, val description: String, val imageRes: Int)
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainContent() {
     TodoEventoAplicacionTheme {
-        MainContent()
+        val navController = rememberNavController()
+        MainContent(navController)
     }
 }
-
-data class Item(val title: String, val description: String, val imageRes: Int)
