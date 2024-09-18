@@ -1,5 +1,8 @@
 package com.example.todoeventoaplicacion
 
+//Genser Catalan
+//Pantalla Configuración Perfil
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,6 +42,7 @@ class PerfilActivity : ComponentActivity() {
 
 @Composable
 fun PerfilScreen() {
+    // Pantalla del perfil
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,6 +72,7 @@ fun PerfilScreen() {
             Text(text = "Cecilia Castillo", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Opciones de perfil
             ProfileOption(icon = Icons.Default.Edit, text = "Edit Profile")
             ProfileOption(icon = Icons.Default.Lock, text = "Reset Password")
             NotificationOption()
@@ -76,9 +81,9 @@ fun PerfilScreen() {
     }
 }
 
-
 @Composable
 fun ProfileOption(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
+    // Componente que muestra una opción de perfil con un ícono y texto
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,6 +99,7 @@ fun ProfileOption(icon: androidx.compose.ui.graphics.vector.ImageVector, text: S
 
 @Composable
 fun NotificationOption() {
+    // Componente para la opción de notificaciones con un switch
     val checkedState = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier

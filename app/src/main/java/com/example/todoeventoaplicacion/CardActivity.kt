@@ -1,5 +1,8 @@
 package com.example.todoeventoaplicacion
 
+//Genser Catalan
+//Pantalla Cards/Eventos
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +22,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.todoeventoaplicacion.ui.theme.TodoEventoAplicacionTheme
 
 class CardActivity : ComponentActivity() {
@@ -26,14 +31,15 @@ class CardActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TodoEventoAplicacionTheme {
-                CardScreen()
+                CardScreen(navController = rememberNavController())
             }
         }
     }
 }
 
 @Composable
-fun CardScreen() {
+fun CardScreen(navController: NavController) {
+    // Pantalla con una Card que muestra la información de un evento
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +55,7 @@ fun CardScreen() {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Event Image
+                // Imagen del evento
                 Image(
                     painter = painterResource(id = R.drawable.travis), // Reemplaza con tu imagen
                     contentDescription = "Event Image",
@@ -83,7 +89,7 @@ fun CardScreen() {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Row for buttons
+                // Fila para los botones
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -98,7 +104,10 @@ fun CardScreen() {
                     }
 
                     Button(
-                        onClick = { /* TODO: Handle Buy Click */ },
+                        onClick = {
+                            // Navega a la pantalla de lugares cuando se presiona "Buy"
+                            navController.navigate("lugares")
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Text(text = "Buy")
@@ -113,6 +122,6 @@ fun CardScreen() {
 @Composable
 fun PreviewCardScreen() {
     TodoEventoAplicacionTheme {
-        CardScreen()
+        CardScreen(navController = rememberNavController())
     }
 }
